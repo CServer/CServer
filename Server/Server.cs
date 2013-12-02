@@ -13,18 +13,18 @@ namespace Server
 	{
 		private MinecraftServer server;
 		private int port;
-		public Server (int port, bool onlineMode, int maxPlayers, String motd, int difficulty, String levelName, String levelType, GameMode gamemode)
+		private String ingameMOTD;
+		public Server (int port, bool onlineMode, int maxPlayers, String motd, int difficulty, String levelName, String levelType, GameMode gamemode, String ingameMOTD)
 		{
 			var level = new Level ();
 			if (levelType == "FLAT") {
 				var generator = new FlatlandGenerator ();
-				level = new Level (generator, levelName);
+				level = new Level (generator);
 			} else if (levelType == "NORMAL") {
 				var generator = new StandardGenerator ();
-				level = new Level (generator, levelName);
+				level = new Level (generator);
 			}
 			level.AddWorld ("overworld");
-			level.SaveTo (levelName);
 			this.server = new MinecraftServer (level);
 			this.server.Settings.MotD = motd;
 			this.server.Settings.OnlineMode = onlineMode;
@@ -35,6 +35,7 @@ namespace Server
 			this.server.PlayerLoggedOut += OnPlayerLoggedOut;
 			this.server.Level.GameMode = gamemode;
 			this.port = port;
+			this.ingameMOTD = ingameMOTD;
 		}
 
 		public void Start () {
@@ -45,7 +46,8 @@ namespace Server
 
 		public void Stop () {
 			Console.WriteLine ("Stopping server...");
-			this.server.Stop ();
+			//this.server.Stop ();
+			System.Environment.Exit (0);
 			// Taken out due to buggy behavior and freezing
 			// Console.WriteLine ("Saving level...");
 			// this.server.Level.Save ();
@@ -55,7 +57,7 @@ namespace Server
 			e.Handled = true;
 			this.SendChat ("A player has joined the game: " + e.Username);
 			this.SendConsoleMessage (string.Format(e.Username + " has joined the server into world " + e.Client.World + " with gamemode " + e.Client.GameMode + "."));
-			e.Client.Entity.Inventory.MainInventory.Items [1] = new ItemStack (137, 64);
+			e.Client.SendChat (string.Format("[MOTD] {0}", this.ingameMOTD));
 		}
 
 		private void OnPlayerLoggedOut (object s, PlayerLogInEventArgs e) {
@@ -65,17 +67,23 @@ namespace Server
 
 		private void OnPlayerChatMessage (object s, ChatMessageEventArgs e) {
 			e.Handled = true;
-			var message = JsonConvert.DeserializeObject<DeserializedChatMessage> (e.RawMessage).text;
+			/*var message = JsonConvert.DeserializeObject<DeserializedChatMessage> (e.RawMessage).text;
 			if (e.RawMessage.Equals ("/stop")) {
 				this.SendChat (e.Origin.Username + " has stopped the server.");
 				this.Stop ();
 			} else
 				this.SendChat (string.Format ("Message: {1}",  message));
+				*/
+			this.SendChat (string.Format ("<{0}> {1}", e.Origin.Username, e.RawMessage));
+			if (e.RawMessage == "/stop" && e.Origin.Username == "mypalsminecraft") {
+				this.SendChat (string.Format ("{0} has stopped the server.", e.Origin.Username));
+				this.Stop ();
+			}
 		}
 
 		public void SendChat (String message) {
 			Console.WriteLine ("[CHAT] " + message);
-			this.server.SendChat (message);
+			this.server.SendChat (message.Replace ("{", "\\{").Replace ("}", "\\}").Replace ("\"", "\\\"").Replace (":", "\\:"));
 		}
 		public void SendConsoleMessage (String message) {
 			Console.WriteLine ("[INFO] " + message);
