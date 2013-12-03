@@ -13,12 +13,12 @@ namespace Server
 		static int port = 25566;
 		static bool onlineMode = true;
 		static int maxPlayers = 20;
-		static String motd = "A Minecraft Server";
+		static String motd = "[1.6.4] CServer Testing Server";
 		static int difficulty = 2;
 		static GameMode gamemode = GameMode.Survival;
 		static String levelName = "world";
 		static String levelType = "NORMAL";
-		static String ingameMOTD = "Chat is no longer broken!";
+		static String ingameMOTD = "CServer Testing Server - Chat is no longer broken!";
 
 		public static void Main (string[] args)
 		{

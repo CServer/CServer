@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FA816A4A-E127-4A76-B886-E1E43793BC2A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CServer.API</RootNamespace>
+    <AssemblyName>CServer.API</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Craft.Net.Anvil">
+      <HintPath>..\lib\Craft.Net.Anvil.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Anvil.Test">
+      <HintPath>..\lib\Craft.Net.Anvil.Test.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Classic.Common">
+      <HintPath>..\lib\Craft.Net.Classic.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Classic.Networking">
+      <HintPath>..\lib\Craft.Net.Classic.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Client">
+      <HintPath>..\lib\Craft.Net.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Common">
+      <HintPath>..\lib\Craft.Net.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net">
+      <HintPath>..\lib\Craft.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Entities">
+      <HintPath>..\lib\Craft.Net.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Logic">
+      <HintPath>..\lib\Craft.Net.Logic.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Logic.Test">
+      <HintPath>..\lib\Craft.Net.Logic.Test.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Physics">
+      <HintPath>..\lib\Craft.Net.Physics.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Server">
+      <HintPath>..\lib\Craft.Net.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.TerrainGeneration">
+      <HintPath>..\lib\Craft.Net.TerrainGeneration.dll</HintPath>
+    </Reference>
+    <Reference Include="Craft.Net.Test">
+      <HintPath>..\lib\Craft.Net.Test.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PluginTunnel.cs" />
+    <Compile Include="Plugin.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Server\Server.csproj">
+      <Project>{DED0F0A5-8337-43D9-BD73-DD0C806F9DD5}</Project>
+      <Name>Server</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

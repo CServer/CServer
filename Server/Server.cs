@@ -85,9 +85,12 @@ namespace Server
 			Console.WriteLine ("[CHAT] " + message);
 			this.server.SendChat (message.Replace ("{", "\\{").Replace ("}", "\\}").Replace ("\"", "\\\"").Replace (":", "\\:"));
 		}
+
 		public void SendConsoleMessage (String message) {
 			Console.WriteLine ("[INFO] " + message);
 		}
+
+		public void OnPlayerDeath(object s, Craft.Net.
 	}
 }
 
